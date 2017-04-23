@@ -8,7 +8,7 @@
              x:Name="_self"
              d:DesignHeight="24"
              d:DesignWidth="128"
-             BorderBrush="#FFABAdB3"
+             BorderBrush="#FFABADB3"
              BorderThickness="1"
              Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
              FocusVisualStyle="{x:Null}"
@@ -20,15 +20,33 @@
               Background="{TemplateBinding Background}"
               BorderBrush="{TemplateBinding BorderBrush}"
               BorderThickness="{TemplateBinding BorderThickness}"
-              SnapsToDevicePixels="True">
+              CornerRadius="{Binding CornerRadius, ElementName=_self}"
+              SnapsToDevicePixels="True"
+              Padding="3,2,3,2">
         <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+          </Grid.ColumnDefinitions>
+
+          <ContentPresenter x:Name="_leftMark"
+                            Grid.Column="0"
+                            Content="{Binding LeftMark, ElementName=_self}"/>
+
           <TextBlock x:Name="_watermark"
+                     Grid.Column="1"
                      Text="{Binding Watermark, ElementName=_self}"
                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                      Foreground="#FF9A9A9A"
                      IsHitTestVisible="False"
                      />
+
+          <ContentPresenter x:Name="_rightMark"
+                            Grid.Column="2"
+                            Content="{Binding RightMark, ElementName=_self}"/>
+
         </Grid>
       </Border>
     </ControlTemplate>

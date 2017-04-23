@@ -36,9 +36,60 @@ namespace AutocompleteWPF {
       }
     }
 
-    #endregion
+    #endregion Watermark
 
-    #endregion
+    #region LeftMark
+
+    public static readonly DependencyProperty LeftMarkProperty =
+      DependencyProperty.Register("LeftMark", typeof(object), typeof(Autocomplete), new UIPropertyMetadata(null));
+
+    public object LeftMark {
+      get {
+        return GetValue(LeftMarkProperty);
+      }
+
+      set {
+        SetValue(LeftMarkProperty, value);
+      }
+    }
+
+    #endregion LeftMark
+
+    #region RightMark
+
+    public static readonly DependencyProperty RightMarkProperty =
+      DependencyProperty.Register("RightMark", typeof(object), typeof(Autocomplete), new UIPropertyMetadata(null));
+
+    public object RightMark {
+      get {
+        return GetValue(RightMarkProperty);
+      }
+
+      set {
+        SetValue(RightMarkProperty, value);
+      }
+    }
+
+    #endregion RightMark
+
+    #region CornerRadius
+
+    public static readonly DependencyProperty CornerRadiusProperty =
+      DependencyProperty.Register("CornerRadius", typeof(int), typeof(Autocomplete), new UIPropertyMetadata(0));
+
+    public int CornerRadius {
+      get {
+        return (int)GetValue(CornerRadiusProperty);
+      }
+
+      set {
+        SetValue(CornerRadiusProperty, value);
+      }
+    }
+
+    #endregion CornerRadius
+
+    #endregion DependencyProperty
 
     public Autocomplete() {
       InitializeComponent();
