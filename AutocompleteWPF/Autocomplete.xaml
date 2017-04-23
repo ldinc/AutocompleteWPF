@@ -13,7 +13,43 @@
              Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
              FocusVisualStyle="{x:Null}"
              Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
+             Focusable="True"
              >
+  <UserControl.Resources>
+
+    <local:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+    <local:NotStringToVisibilityConverter x:Key="NotStringToVisibilityConverter" />
+
+    <Style x:Key="input" TargetType="{x:Type TextBox}">
+      <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+      <Setter Property="BorderBrush" Value="{x:Null}"/>
+      <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
+      <Setter Property="HorizontalContentAlignment" Value="Left"/>
+      <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+      <Setter Property="AllowDrop" Value="true"/>
+      <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
+      <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type TextBox}">
+            <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+      <Style.Triggers>
+        <MultiTrigger>
+          <MultiTrigger.Conditions>
+            <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true"/>
+            <Condition Property="IsSelectionActive" Value="false"/>
+          </MultiTrigger.Conditions>
+          <Setter Property="SelectionBrush"
+                  Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+        </MultiTrigger>
+      </Style.Triggers>
+    </Style>
+  </UserControl.Resources>
   <UserControl.Template>
     <ControlTemplate>
       <Border x:Name="_border"
@@ -34,6 +70,17 @@
                             Grid.Column="0"
                             Content="{Binding LeftMark, ElementName=_self}"/>
 
+
+
+          <TextBox x:Name="_input"
+                   Grid.Column="1"
+                   Style="{DynamicResource input}"
+                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                   Foreground="{TemplateBinding Foreground}"
+                   Background="{TemplateBinding Background}"
+                   />
+
           <TextBlock x:Name="_watermark"
                      Grid.Column="1"
                      Text="{Binding Watermark, ElementName=_self}"
@@ -41,6 +88,7 @@
                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                      Foreground="#FF9A9A9A"
                      IsHitTestVisible="False"
+                     Visibility="{Binding Text, ElementName=_input, Converter={StaticResource NotStringToVisibilityConverter}}"
                      />
 
           <ContentPresenter x:Name="_rightMark"
@@ -49,6 +97,19 @@
 
         </Grid>
       </Border>
+      <ControlTemplate.Triggers>
+        <Trigger Property="IsMouseOver" Value="true">
+          <Setter Property="BorderBrush" TargetName="_border"
+                  Value="#FF7EB4EA"/>
+        </Trigger>
+
+        <Trigger Property="IsKeyboardFocused" Value="true" SourceName="_input">
+          <Setter Property="BorderBrush" TargetName="_border"
+                  Value="#FF569DE5"/>
+          <Setter TargetName="_watermark" Property="Visibility" Value="Collapsed"/>
+        </Trigger>
+
+      </ControlTemplate.Triggers>
     </ControlTemplate>
   </UserControl.Template>
 </UserControl>

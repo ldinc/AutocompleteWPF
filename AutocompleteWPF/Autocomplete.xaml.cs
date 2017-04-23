@@ -94,5 +94,6 @@ namespace AutocompleteWPF {
     public Autocomplete() {
       InitializeComponent();
     }
+
   }
 }
