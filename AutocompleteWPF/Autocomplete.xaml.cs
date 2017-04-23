@@ -18,6 +18,28 @@ namespace AutocompleteWPF {
   /// Interaction logic for Autocomplete.xaml
   /// </summary>
   public partial class Autocomplete : UserControl {
+
+    #region DependencyProperty
+
+    #region Watermark
+
+    public static readonly DependencyProperty WatermarkProperty =
+      DependencyProperty.Register("Watermark", typeof(string), typeof(Autocomplete), new UIPropertyMetadata(string.Empty));
+
+    public string Watermark {
+      get {
+        return (string)GetValue(WatermarkProperty);
+      }
+
+      set {
+        SetValue(WatermarkProperty, value);
+      }
+    }
+
+    #endregion
+
+    #endregion
+
     public Autocomplete() {
       InitializeComponent();
     }

@@ -4,11 +4,33 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AutocompleteWPF"
-             mc:Ignorable="d" 
-             d:DesignHeight="300"
-             Background="SkyBlue"
-             d:DesignWidth="300">
-  <Grid>
-
-  </Grid>
+             mc:Ignorable="d"
+             x:Name="_self"
+             d:DesignHeight="24"
+             d:DesignWidth="128"
+             BorderBrush="#FFABAdB3"
+             BorderThickness="1"
+             Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+             FocusVisualStyle="{x:Null}"
+             Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
+             >
+  <UserControl.Template>
+    <ControlTemplate>
+      <Border x:Name="_border"
+              Background="{TemplateBinding Background}"
+              BorderBrush="{TemplateBinding BorderBrush}"
+              BorderThickness="{TemplateBinding BorderThickness}"
+              SnapsToDevicePixels="True">
+        <Grid>
+          <TextBlock x:Name="_watermark"
+                     Text="{Binding Watermark, ElementName=_self}"
+                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                     Foreground="#FF9A9A9A"
+                     IsHitTestVisible="False"
+                     />
+        </Grid>
+      </Border>
+    </ControlTemplate>
+  </UserControl.Template>
 </UserControl>
