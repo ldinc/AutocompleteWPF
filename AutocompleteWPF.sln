@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example", "Example\Example.csproj", "{D9EE2C42-EC77-4C5B-BF04-CBBE7983B544}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutocompleteWPF", "AutocompleteWPF\AutocompleteWPF.csproj", "{C6293C49-76BA-433C-99F1-320F89892046}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9EE2C42-EC77-4C5B-BF04-CBBE7983B544}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9EE2C42-EC77-4C5B-BF04-CBBE7983B544}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9EE2C42-EC77-4C5B-BF04-CBBE7983B544}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9EE2C42-EC77-4C5B-BF04-CBBE7983B544}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6293C49-76BA-433C-99F1-320F89892046}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6293C49-76BA-433C-99F1-320F89892046}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6293C49-76BA-433C-99F1-320F89892046}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6293C49-76BA-433C-99F1-320F89892046}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
