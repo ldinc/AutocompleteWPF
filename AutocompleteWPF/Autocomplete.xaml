@@ -101,7 +101,7 @@
             <ScrollViewer x:Name="_scroll">
               <ListBox x:Name="_lstbox"
                        ItemsSource="{Binding Suggestions, ElementName=_self}"
-                       MouseDown="_lstbox_MouseDown"/>
+                       />
             </ScrollViewer>
           </Popup>
           
@@ -122,4 +122,5 @@
       </ControlTemplate.Triggers>
     </ControlTemplate>
   </UserControl.Template>
+  
 </UserControl>

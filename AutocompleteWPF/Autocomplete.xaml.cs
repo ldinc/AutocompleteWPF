@@ -148,25 +148,10 @@ namespace AutocompleteWPF {
       }
     }
 
-    private ScrollViewer scroll = null;
-    private ScrollViewer Scroll {
-      get {
-        if (scroll == null) {
-          scroll = FindChild<ScrollViewer>(Popup, "_scroll");
-        }
-        return scroll;
-      }
-    }
+    private ScrollViewer Scroll = null;
+    private ListBox ListBox = null;
 
-    private ListBox lstbox = null;
-    private ListBox ListBox {
-      get {
-        if (lstbox == null) {
-          lstbox = FindChild<ListBox>(Scroll, "_lstbox");
-        }
-        return lstbox;
-      }
-    }
+    private string PrevText = string.Empty;
 
     #endregion InputMappings
 
@@ -174,8 +159,24 @@ namespace AutocompleteWPF {
       InitializeComponent();
       LostFocus += Autocomplete_LostFocus;
       GotFocus += Autocomplete_GotFocus;
-      ListBox.MouseDown += _lstbox_MouseDown;
+      Loaded += Autocomplete_Loaded;
+      //ListBox.MouseDown += _lstbox_MouseDown;
       //MouseDown += Autocomplete_MouseDown;
+    }
+
+    private void Autocomplete_Loaded(object sender, RoutedEventArgs e) {
+      Scroll = Popup.Child as ScrollViewer;
+      ListBox = Scroll.Content as ListBox;
+      ListBox.SelectionChanged += ListBox_SelectionChanged;
+    }
+
+    private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+      var selected = ListBox.SelectedItem;
+      PrevText = SuggestEngine.ToText(selected);
+      Input.Text = PrevText;    
+      Input.Focus();
+      Input.CaretIndex = Input.Text.Length;
+      Popup.IsOpen = false;
     }
 
     private void Autocomplete_GotFocus(object sender, RoutedEventArgs e) {
@@ -189,21 +190,17 @@ namespace AutocompleteWPF {
     }
 
     private void _input_TextChanged(object sender, TextChangedEventArgs e) {
-      if (SuggestEngine != null) {
+      if (SuggestEngine != null && PrevText != Input.Text) {
         Suggestions = SuggestEngine.GetSuggestionsFor(Input.Text);
         if (Suggestions.Count() > 0) {
           Popup.IsOpen = true;
         } else {
           Popup.IsOpen = false;
         }
+        PrevText = Input.Text;
       }
+      
     }
-
-    //private void Autocomplete_MouseDown(object sender, MouseButtonEventArgs e) {
-    //  var self = sender as Autocomplete;
-    //  var target = FindChild<TextBox>(self, "_input");
-    //  //target.Focus();
-    //}
 
     public static T FindChild<T>(DependencyObject parent, string childName) where T : DependencyObject {
       // Confirm parent and childName are valid. 
@@ -240,9 +237,5 @@ namespace AutocompleteWPF {
       return foundChild;
     }
 
-    private void _lstbox_MouseDown(object sender, MouseButtonEventArgs e) {
-      var selected = ListBox.SelectedItem;
-      Input.Text = SuggestEngine.ToText(selected);
-    }
   }
 }

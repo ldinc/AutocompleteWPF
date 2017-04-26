@@ -39,7 +39,7 @@ namespace Example {
       }
 
       public string ToText(object obj) {
-        return "jibril!";
+        return "jibril!  " + obj.ToString();
       }
     }
 
