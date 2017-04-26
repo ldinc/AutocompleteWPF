@@ -76,7 +76,7 @@
                    Grid.Column="1"
                    Style="{DynamicResource input}"
                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                   HorizontalAlignment="Stretch"
                    Foreground="{TemplateBinding Foreground}"
                    Background="{TemplateBinding Background}"
                    />
@@ -84,6 +84,7 @@
           <TextBlock x:Name="_watermark"
                      Grid.Column="1"
                      Text="{Binding Watermark, ElementName=_self}"
+                     Background="{x:Null}"
                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                      Foreground="#FF9A9A9A"
@@ -106,7 +107,7 @@
         <Trigger Property="IsKeyboardFocused" Value="true" SourceName="_input">
           <Setter Property="BorderBrush" TargetName="_border"
                   Value="#FF569DE5"/>
-          <Setter TargetName="_watermark" Property="Visibility" Value="Collapsed"/>
+          <!--<Setter TargetName="_watermark" Property="Visibility" Value="Collapsed"/>-->
         </Trigger>
 
       </ControlTemplate.Triggers>
