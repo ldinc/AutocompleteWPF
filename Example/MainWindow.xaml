@@ -56,6 +56,7 @@
     </Style>
   </Window.Resources>
   <Grid>
+    <Button Height="28" Margin="10,10,461,281" Click="Button_Click">SetText</Button>
     <StackPanel Orientation="Vertical"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center">

@@ -31,17 +31,32 @@ namespace Example {
     }
 
     public class Engine : ICanSuggestCompletion {
-      public IEnumerable<object> GetSuggestionsFor(string input) {
-        var list = new List<string>();
+
+      private List<string> list;
+
+      public Engine() {
+        list = new List<string>();
         list.Add("Sora");
         list.Add("Sota");
-        return list;
+        list.Add("Akira");
+        list.Add("Jibril");
+        list.Add("Soka");
+        list.Add("Demi");
+        list.Add("Chan");
+      }
+
+      public IEnumerable<object> GetSuggestionsFor(string input) {
+        IEnumerable<string> result = list.Where(s => s.ToLower().Contains(input.ToLower()));
+        return result;
       }
 
       public string ToText(object obj) {
-        return "jibril!  " + obj.ToString();
+        return "named character as " + obj.ToString();
       }
     }
 
+    private void Button_Click(object sender, RoutedEventArgs e) {
+      test.Text = "so";
+    }
   }
 }

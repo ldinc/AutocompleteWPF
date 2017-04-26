@@ -124,6 +124,23 @@ namespace AutocompleteWPF {
 
     #endregion Suggestions
 
+    #region Text
+
+    public static readonly DependencyProperty TextProperty =
+      DependencyProperty.Register("Text", typeof(string), typeof(Autocomplete), new UIPropertyMetadata(string.Empty));
+
+    public string Text {
+      get {
+        return (string)GetValue(TextProperty);
+      }
+
+      set {
+        SetValue(TextProperty, value);
+      }
+    }
+
+    #endregion Text
+
     #endregion DependencyProperty
 
     #region InputMappings
@@ -152,6 +169,9 @@ namespace AutocompleteWPF {
     private ListBox ListBox = null;
 
     private string PrevText = string.Empty;
+    private bool ChangedInBackground = false;
+
+    public object Selected = null;
 
     #endregion InputMappings
 
@@ -168,20 +188,37 @@ namespace AutocompleteWPF {
       Scroll = Popup.Child as ScrollViewer;
       ListBox = Scroll.Content as ListBox;
       ListBox.SelectionChanged += ListBox_SelectionChanged;
+      ListBox.PreviewMouseDown += ListBox_MouseDown;
+    }
+
+    private void ListBox_MouseDown(object sender, MouseButtonEventArgs e) {
+      var selected = ListBox.SelectedItem;
+      if (selected != null) {
+        PrevText = SuggestEngine.ToText(selected);
+        Input.Text = PrevText;
+        Input.Focus();
+        Input.CaretIndex = Input.Text.Length;
+        Popup.IsOpen = false;
+        Selected = selected;
+      }
     }
 
     private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-      var selected = ListBox.SelectedItem;
-      PrevText = SuggestEngine.ToText(selected);
-      Input.Text = PrevText;    
-      Input.Focus();
-      Input.CaretIndex = Input.Text.Length;
-      Popup.IsOpen = false;
+      if (ListBox.IsKeyboardFocusWithin && ListBox.SelectedIndex >= 0) {
+        var selected = ListBox.SelectedItem;
+        PrevText = SuggestEngine.ToText(selected);
+        Input.Text = PrevText;
+        Input.Focus();
+        Input.CaretIndex = Input.Text.Length;
+        Popup.IsOpen = false;
+        Selected = selected;
+      }
     }
 
     private void Autocomplete_GotFocus(object sender, RoutedEventArgs e) {
-      if (Suggestions != null && Suggestions.Count() > 0) {
+      if (Suggestions != null && Suggestions.Count() > 0 && Selected == null || ChangedInBackground) {
         Popup.IsOpen = true;
+        ChangedInBackground = false;
       }
     }
 
@@ -190,16 +227,25 @@ namespace AutocompleteWPF {
     }
 
     private void _input_TextChanged(object sender, TextChangedEventArgs e) {
-      if (SuggestEngine != null && PrevText != Input.Text) {
+      if (SuggestEngine != null) {
         Suggestions = SuggestEngine.GetSuggestionsFor(Input.Text);
-        if (Suggestions.Count() > 0) {
-          Popup.IsOpen = true;
+        if (PrevText != Input.Text && IsKeyboardFocusWithin) {
+          if (Suggestions.Count() > 0) {
+            Popup.IsOpen = true;
+          } else {
+            Popup.IsOpen = false;
+          }
+          PrevText = Input.Text;
+          if (Selected != null) {
+            Selected = null;
+          }
         } else {
-          Popup.IsOpen = false;
-        }
-        PrevText = Input.Text;
-      }
-      
+          if (!IsKeyboardFocusWithin) {
+            ChangedInBackground = true;
+            Selected = null;
+          }
+        } 
+      } 
     }
 
     public static T FindChild<T>(DependencyObject parent, string childName) where T : DependencyObject {
@@ -237,5 +283,49 @@ namespace AutocompleteWPF {
       return foundChild;
     }
 
+    private void _input_KeyDown(object sender, KeyEventArgs e) {
+      if (e.Key == Key.Down) {
+        if (Popup.IsOpen) {
+          var index = ListBox.SelectedIndex;
+          if (index + 1 < ListBox.Items.Count) {
+            ListBox.SelectedIndex = index + 1;
+          }
+        }
+        e.Handled = true;
+      }
+      if (e.Key == Key.Up) {
+        if (Popup.IsOpen) {
+          var index = ListBox.SelectedIndex;
+          if (index > 0) {
+            ListBox.SelectedIndex = index - 1;
+          }
+        }
+        e.Handled = true;
+      }
+      if (e.Key == Key.PageDown) {
+        if (Popup.IsOpen) {
+          ListBox.SelectedIndex = ListBox.Items.Count - 1;
+        }
+        e.Handled = true;
+      }
+      if (e.Key == Key.PageUp) {
+        if (Popup.IsOpen) {
+          ListBox.SelectedIndex = 0;
+        }
+        e.Handled = true;
+      }
+      if (e.Key == Key.Enter) {
+        if (Popup.IsOpen) {
+          var selected = ListBox.SelectedItem;
+          PrevText = SuggestEngine.ToText(selected);
+          Input.Text = PrevText;
+          Input.Focus();
+          Input.CaretIndex = Input.Text.Length;
+          Popup.IsOpen = false;
+          Selected = selected;
+        }
+        e.Handled = true;
+      }
+    }
   }
 }

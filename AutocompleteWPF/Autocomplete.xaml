@@ -79,6 +79,8 @@
                    Foreground="{TemplateBinding Foreground}"
                    Background="{TemplateBinding Background}"
                    TextChanged="_input_TextChanged"
+                   PreviewKeyDown="_input_KeyDown"
+                   Text="{Binding Text, ElementName=_self}"
                    />
 
           <TextBlock x:Name="_watermark"
