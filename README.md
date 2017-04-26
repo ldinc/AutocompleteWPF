@@ -11,7 +11,7 @@ Supporting MVVM frameworks (like Caliburn).
 
 ![default state](https://github.com/ldinc/AutocompleteWPF/blob/master/Images/00.PNG)
 
-![editing state](https://github.com/ldinc/AutocompleteWPF/blob/master/Images/01.PNG)
+![editing state](https://github.com/ldinc/AutocompleteWPF/blob/master/Images/02.PNG)
 
 ![completed state](https://github.com/ldinc/AutocompleteWPF/blob/master/Images/02.PNG)
 
