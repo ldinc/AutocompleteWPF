@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AutocompleteWPF;
 
 namespace Example {
   /// <summary>
@@ -20,6 +21,27 @@ namespace Example {
   public partial class MainWindow : Window {
     public MainWindow() {
       InitializeComponent();
+      TestEngine = new Engine();
+      test.SuggestEngine = TestEngine;
     }
+
+    public ICanSuggestCompletion TestEngine {
+      get;
+      private set;
+    }
+
+    public class Engine : ICanSuggestCompletion {
+      public IEnumerable<object> GetSuggestionsFor(string input) {
+        var list = new List<string>();
+        list.Add("Sora");
+        list.Add("Sota");
+        return list;
+      }
+
+      public string ToText(object obj) {
+        return "jibril!";
+      }
+    }
+
   }
 }

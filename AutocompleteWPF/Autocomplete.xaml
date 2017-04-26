@@ -19,6 +19,7 @@
 
     <local:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
     <local:NotStringToVisibilityConverter x:Key="NotStringToVisibilityConverter" />
+    <local:ObjectToBooleanConverter x:Key="ObjectToBooleanConverter" />
 
     <Style x:Key="input" TargetType="{x:Type TextBox}">
       <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
@@ -70,8 +71,6 @@
                             Grid.Column="0"
                             Content="{Binding LeftMark, ElementName=_self}"/>
 
-
-
           <TextBox x:Name="_input"
                    Grid.Column="1"
                    Style="{DynamicResource input}"
@@ -79,6 +78,7 @@
                    HorizontalAlignment="Stretch"
                    Foreground="{TemplateBinding Foreground}"
                    Background="{TemplateBinding Background}"
+                   TextChanged="_input_TextChanged"
                    />
 
           <TextBlock x:Name="_watermark"
@@ -96,6 +96,15 @@
                             Grid.Column="2"
                             Content="{Binding RightMark, ElementName=_self}"/>
 
+          <Popup x:Name="_popup"
+                 IsOpen="False" >
+            <ScrollViewer x:Name="_scroll">
+              <ListBox x:Name="_lstbox"
+                       ItemsSource="{Binding Suggestions, ElementName=_self}"
+                       MouseDown="_lstbox_MouseDown"/>
+            </ScrollViewer>
+          </Popup>
+          
         </Grid>
       </Border>
       <ControlTemplate.Triggers>

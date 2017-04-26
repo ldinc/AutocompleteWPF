@@ -38,4 +38,27 @@ namespace AutocompleteWPF {
     }
   }
 
+  public class ObjectToBooleanConverter : IValueConverter {
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+      if (value == null) {
+        return false;
+      }
+      string text = value as string;
+      if (text == null) {
+        return false;
+      }
+      if (string.IsNullOrEmpty(text)) {
+        return false;
+      }
+      if ((bool)value == false) {
+        return false;
+      }
+      return true;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
+      throw new NotImplementedException();
+    }
+  }
+
 }
