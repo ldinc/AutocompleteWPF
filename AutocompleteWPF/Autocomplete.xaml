@@ -1,8 +1,8 @@
 ﻿<UserControl x:Class="AutocompleteWPF.Autocomplete"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:AutocompleteWPF"
              mc:Ignorable="d"
              x:Name="_self"
@@ -59,7 +59,7 @@
               BorderThickness="{TemplateBinding BorderThickness}"
               CornerRadius="{Binding CornerRadius, ElementName=_self}"
               SnapsToDevicePixels="True"
-              Padding="3,2,3,2">
+              Padding="1">
         <Grid>
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -80,6 +80,8 @@
                    Background="{TemplateBinding Background}"
                    TextChanged="_input_TextChanged"
                    PreviewKeyDown="_input_KeyDown"
+                   MouseWheel="_input_MouseWheel"
+                   FontSize="{Binding FontSize, ElementName=_self}"
                    Text="{Binding Text, ElementName=_self}"
                    />
 
@@ -100,13 +102,17 @@
 
           <Popup x:Name="_popup"
                  IsOpen="False" >
-            <ScrollViewer x:Name="_scroll">
-              <ListBox x:Name="_lstbox"
-                       ItemsSource="{Binding Suggestions, ElementName=_self}"
-                       />
-            </ScrollViewer>
+            <Border CornerRadius="3" BorderThickness="1" BorderBrush="#FF569DE5">
+              <ScrollViewer x:Name="_scroll">
+                <ListBox x:Name="_lstbox"
+                         BorderBrush="{Binding Background, ElementName=_self}"
+                         Background="{Binding Background, ElementName=_self}"
+                         ItemsSource="{Binding Suggestions, ElementName=_self}"
+                         />
+              </ScrollViewer>
+            </Border>
           </Popup>
-          
+
         </Grid>
       </Border>
       <ControlTemplate.Triggers>
@@ -124,5 +130,5 @@
       </ControlTemplate.Triggers>
     </ControlTemplate>
   </UserControl.Template>
-  
+
 </UserControl>

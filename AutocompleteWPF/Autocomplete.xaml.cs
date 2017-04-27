@@ -185,7 +185,7 @@ namespace AutocompleteWPF {
     }
 
     private void Autocomplete_Loaded(object sender, RoutedEventArgs e) {
-      Scroll = Popup.Child as ScrollViewer;
+      Scroll = (Popup.Child as Border).Child as ScrollViewer;
       ListBox = Scroll.Content as ListBox;
       ListBox.SelectionChanged += ListBox_SelectionChanged;
       ListBox.PreviewMouseDown += ListBox_MouseDown;
@@ -244,12 +244,12 @@ namespace AutocompleteWPF {
             ChangedInBackground = true;
             Selected = null;
           }
-        } 
-      } 
+        }
+      }
     }
 
     public static T FindChild<T>(DependencyObject parent, string childName) where T : DependencyObject {
-      // Confirm parent and childName are valid. 
+      // Confirm parent and childName are valid.
       if (parent == null) return null;
 
       T foundChild = null;
@@ -263,7 +263,7 @@ namespace AutocompleteWPF {
           // recursively drill down the tree
           foundChild = FindChild<T>(child, childName);
 
-          // If the child is found, break so we do not overwrite the found child. 
+          // If the child is found, break so we do not overwrite the found child.
           if (foundChild != null) break;
         } else if (!string.IsNullOrEmpty(childName)) {
           var frameworkElement = child as FrameworkElement;
@@ -289,6 +289,8 @@ namespace AutocompleteWPF {
           var index = ListBox.SelectedIndex;
           if (index + 1 < ListBox.Items.Count) {
             ListBox.SelectedIndex = index + 1;
+            double delta = ListBox.ActualHeight / (ListBox.Items.Count - 1);
+            Scroll.ScrollToVerticalOffset(Scroll.ContentVerticalOffset + delta);
           }
         }
         e.Handled = true;
@@ -298,6 +300,8 @@ namespace AutocompleteWPF {
           var index = ListBox.SelectedIndex;
           if (index > 0) {
             ListBox.SelectedIndex = index - 1;
+            double delta = ListBox.ActualHeight / (ListBox.Items.Count - 1);
+            Scroll.ScrollToVerticalOffset(Scroll.ContentVerticalOffset - delta);
           }
         }
         e.Handled = true;
@@ -305,26 +309,47 @@ namespace AutocompleteWPF {
       if (e.Key == Key.PageDown) {
         if (Popup.IsOpen) {
           ListBox.SelectedIndex = ListBox.Items.Count - 1;
+          Scroll.ScrollToBottom();
         }
         e.Handled = true;
       }
       if (e.Key == Key.PageUp) {
         if (Popup.IsOpen) {
           ListBox.SelectedIndex = 0;
+          Scroll.ScrollToTop();
         }
         e.Handled = true;
       }
       if (e.Key == Key.Enter) {
         if (Popup.IsOpen) {
           var selected = ListBox.SelectedItem;
-          PrevText = SuggestEngine.ToText(selected);
-          Input.Text = PrevText;
-          Input.Focus();
-          Input.CaretIndex = Input.Text.Length;
+          if (selected != null) {
+            PrevText = SuggestEngine.ToText(selected);
+            Input.Text = PrevText;
+            Input.Focus();
+            Input.CaretIndex = Input.Text.Length;
+          }
           Popup.IsOpen = false;
           Selected = selected;
         }
         e.Handled = true;
+      }
+      if (e.Key == Key.Escape) {
+        if (Popup.IsOpen) {
+          Popup.IsOpen = false;
+        }
+      }
+    }
+
+    private void _input_MouseWheel(object sender, MouseWheelEventArgs e) {
+      if (e.Delta > 0 && Popup.IsOpen) {
+        double delta = ListBox.ActualHeight / (ListBox.Items.Count - 1);
+        Scroll.ScrollToVerticalOffset(Scroll.ContentVerticalOffset + delta);
+      } else {
+        if (e.Delta < 0 && Popup.IsOpen) {
+          double delta = ListBox.ActualHeight / (ListBox.Items.Count - 1);
+          Scroll.ScrollToVerticalOffset(Scroll.ContentVerticalOffset - delta);
+        }
       }
     }
   }

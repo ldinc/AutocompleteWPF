@@ -43,6 +43,34 @@ namespace Example {
         list.Add("Soka");
         list.Add("Demi");
         list.Add("Chan");
+        list.Add("Sora");
+        list.Add("Sota");
+        list.Add("Akira");
+        list.Add("Jibril");
+        list.Add("Soka");
+        list.Add("Demi");
+        list.Add("Chan");
+        list.Add("Sora");
+        list.Add("Sota");
+        list.Add("Akira");
+        list.Add("Jibril");
+        list.Add("Soka");
+        list.Add("Demi");
+        list.Add("Chan");
+        list.Add("Sora");
+        list.Add("Sota");
+        list.Add("Akira");
+        list.Add("Jibril");
+        list.Add("Soka");
+        list.Add("Demi");
+        list.Add("Chan");
+        list.Add("Sora");
+        list.Add("Sota");
+        list.Add("Akira");
+        list.Add("Jibril");
+        list.Add("Soka");
+        list.Add("Demi");
+        list.Add("Chan");
       }
 
       public IEnumerable<object> GetSuggestionsFor(string input) {
