@@ -72,7 +72,8 @@
                        Watermark="Jibril!"
                        BorderBrush="Red"
                        CornerRadius="3"
-                       Foreground="Blue"                       SuggestEngine="{Binding TestEngine}"
+                       Foreground="Blue"
+                       SuggestEngine="{Binding TestEngine}"
                        >
         <ui:Autocomplete.LeftMark>
           <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Width="24" Height="24">
@@ -104,12 +105,14 @@
         </ui:Autocomplete.RightMark>
       </ui:Autocomplete>
 
-      <ui:Autocomplete Width="320"
+      <ui:Autocomplete x:Name="test2"
+                       Width="320"
                        Height="28"
                        Margin="8"
                        HorizontalContentAlignment="Left"
                        VerticalContentAlignment="Center"
                        Watermark="Jibril!"
+                       SuggestEngine="{Binding TestEngine}"
                        >
         <ui:Autocomplete.LeftMark>
           <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Width="24" Height="24">

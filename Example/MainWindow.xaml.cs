@@ -23,6 +23,7 @@ namespace Example {
       InitializeComponent();
       TestEngine = new Engine();
       test.SuggestEngine = TestEngine;
+      test2.SuggestEngine = TestEngine;
     }
 
     public ICanSuggestCompletion TestEngine {

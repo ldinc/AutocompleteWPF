@@ -103,7 +103,8 @@
           <Popup x:Name="_popup"
                  IsOpen="False" >
             <Border CornerRadius="3" BorderThickness="1" BorderBrush="#FF569DE5">
-              <ScrollViewer x:Name="_scroll">
+              <ScrollViewer x:Name="_scroll"
+                            VerticalScrollBarVisibility="Auto">
                 <ListBox x:Name="_lstbox"
                          BorderBrush="{Binding Background, ElementName=_self}"
                          Background="{Binding Background, ElementName=_self}"
