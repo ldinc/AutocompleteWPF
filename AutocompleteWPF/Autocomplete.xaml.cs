@@ -283,14 +283,23 @@ namespace AutocompleteWPF {
       return foundChild;
     }
 
+    private double offset() {
+      if (ListBox.SelectedIndex < 0) {
+        ListBox.SelectedIndex = 0;
+      }
+      object selectedItem = ListBox.SelectedItem;
+      ListBoxItem selectedListBoxItem = ListBox.ItemContainerGenerator.ContainerFromItem(selectedItem) as ListBoxItem;
+      return selectedListBoxItem.ActualHeight;
+    }
+
     private void _input_KeyDown(object sender, KeyEventArgs e) {
       if (e.Key == Key.Down) {
         if (Popup.IsOpen) {
           var index = ListBox.SelectedIndex;
+          var d = ListBox.SelectedItemProperty;
           if (index + 1 < ListBox.Items.Count) {
             ListBox.SelectedIndex = index + 1;
-            double delta = ListBox.ActualHeight / (ListBox.Items.Count - 1);
-            Scroll.ScrollToVerticalOffset(Scroll.ContentVerticalOffset + delta);
+            Scroll.ScrollToVerticalOffset(Scroll.ContentVerticalOffset + offset());
           }
         }
         e.Handled = true;
@@ -300,9 +309,8 @@ namespace AutocompleteWPF {
           var index = ListBox.SelectedIndex;
           if (index > 0) {
             ListBox.SelectedIndex = index - 1;
-            double delta = ListBox.ActualHeight / (ListBox.Items.Count - 1);
-            Scroll.ScrollToVerticalOffset(Scroll.ContentVerticalOffset - delta);
           }
+          Scroll.ScrollToVerticalOffset(Scroll.ContentVerticalOffset - offset());
         }
         e.Handled = true;
       }
@@ -343,12 +351,10 @@ namespace AutocompleteWPF {
 
     private void _input_MouseWheel(object sender, MouseWheelEventArgs e) {
       if (e.Delta > 0 && Popup.IsOpen) {
-        double delta = ListBox.ActualHeight / (ListBox.Items.Count - 1);
-        Scroll.ScrollToVerticalOffset(Scroll.ContentVerticalOffset + delta);
+        Scroll.ScrollToVerticalOffset(Scroll.ContentVerticalOffset + offset());
       } else {
         if (e.Delta < 0 && Popup.IsOpen) {
-          double delta = ListBox.ActualHeight / (ListBox.Items.Count - 1);
-          Scroll.ScrollToVerticalOffset(Scroll.ContentVerticalOffset - delta);
+          Scroll.ScrollToVerticalOffset(Scroll.ContentVerticalOffset - offset());
         }
       }
     }
