@@ -286,6 +286,7 @@ namespace AutocompleteWPF {
     private double offset() {
       if (ListBox.SelectedIndex < 0) {
         ListBox.SelectedIndex = 0;
+        return 0.0;
       }
       object selectedItem = ListBox.SelectedItem;
       ListBoxItem selectedListBoxItem = ListBox.ItemContainerGenerator.ContainerFromItem(selectedItem) as ListBoxItem;
@@ -296,10 +297,14 @@ namespace AutocompleteWPF {
       if (e.Key == Key.Down) {
         if (Popup.IsOpen) {
           var index = ListBox.SelectedIndex;
-          var d = ListBox.SelectedItemProperty;
-          if (index + 1 < ListBox.Items.Count) {
-            ListBox.SelectedIndex = index + 1;
-            Scroll.ScrollToVerticalOffset(Scroll.ContentVerticalOffset + offset());
+          if (index < 0) {
+            ListBox.SelectedIndex = 0;
+          } else {
+            var d = ListBox.SelectedItemProperty;
+            if (index + 1 < ListBox.Items.Count) {
+              ListBox.SelectedIndex = index + 1;
+              Scroll.ScrollToVerticalOffset(Scroll.ContentVerticalOffset + offset());
+            }
           }
         }
         e.Handled = true;
